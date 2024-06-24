@@ -1,0 +1,16 @@
+---
+- name: Update and reboot Windows servers
+  hosts: windows
+  tasks:
+    - name: Install all available updates
+      win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+        reboot: yes
+
+    - name: Reboot if required
+      win_reboot:
+        when: reboot_required
+        timeout: 3600
+        msg: "Reboot initiated by Ansible for patching"
